@@ -5,6 +5,46 @@
 #include <vector>
 #include <algorithm>
 
+class Projectile {
+public:
+	int x, y;
+	bool direction_up;
+	void collide();
+	//y = 0 is at the top of the screen
+	void move(){if (direction_up) {y--;} else {y++;}};
+	Engine::Sprite sprite;
+	Projectile(); // Non-parametric constructor
+	Projectile(int& x_in, int& y_in): x(x_in), y(y_in){}
+	~Projectile();
+};
+
+void Projectile::collide()
+{
+
+}
+
+/// Inherited classs rocket
+
+class Rocket : public Projectile {
+public:
+	bool direction_up = true;
+	Engine::Sprite sprite = Engine::Sprite::Rocket;
+	// next line will call Projectile constructor
+	Rocket(int x_in, int y_in):Projectile(x_in,y_in){}
+	~Rocket();
+};
+
+class Bomb : public Projectile {
+public:
+	bool direction_up = false;
+	Engine::Sprite sprite = Engine::Sprite::Bomb;
+	// next line will call Projectile constructor
+	Bomb(int x_in, int y_in): Projectile(x_in,y_in){}
+	~Bomb();
+};
+
+
+/////////SHIP CLASS /////////////////////////////////
 class Ship {
 
 public:
@@ -16,6 +56,8 @@ public:
 
 };
 
+
+///////////ALIEN CLASS /////////////////////
 class Alien {
 public:
 // by being static these apply to all objects of class alien
@@ -78,7 +120,7 @@ next when any alien touches the edge, all aliens go down
 	}
 
 	// this is somewhat obscure because it's not in main
-	if ((flow_right and x == Engine::CanvasWidth) or 
+	if ((flow_right and x == Engine::CanvasWidth-Engine::SpriteSize) or 
 		(not flow_right and x == 0))
 	{
 		flow_right = not flow_right;
@@ -99,15 +141,17 @@ int Alien::y = 0; // initialise y for all aliens
 bool Alien::flow_right = true;
 int Alien::count = 0;
 
-
+/////////MAIN BODY///////////
 void EngineMain()
 {
 	Engine engine;
 	bool start = false;
 
 	int x = (Engine::CanvasWidth - Engine::SpriteSize) / 2;
+	int y_player = Engine::CanvasHeight - Engine::SpriteSize;
 
 	Ship player;
+	
 	int alienCount = 0;
 	int x_entry_alien = 0, y_entry_alien = Engine::CanvasHeight;
 
@@ -117,7 +161,12 @@ void EngineMain()
 	int max_aliens = Engine::CanvasWidth/Engine::SpriteSize;
 
 	const int n_aliens = 5; //can prompt this later
-	Alien aliens[n_aliens];
+	Alien aliens[n_aliens]; //aliens vector
+
+	std::vector<Rocket> rocks; //rocket (empty) vector
+	int rocket_count = 0;
+	std::vector<Bomb> bombs; //bomb (empty) vector
+	int bomb_count = 0;
 
 	// initialise aliens
 	for (int i = 0; i<n_aliens; i++){
@@ -132,7 +181,7 @@ void EngineMain()
 		Wait until user presses space to start the game */ 
 
 		if (not start){
-			const uint8_t *keyboard = SDL_GetKeyboardState(0);
+			const uint8_t* keyboard = SDL_GetKeyboardState(0);
 			const char message[] = "PRESS SPACE KEY TO START";
 			engine.drawText(
 				message, 
@@ -156,25 +205,40 @@ void EngineMain()
 
 			engine.drawSprite(
 				Engine::Sprite::Player, 
-				x, Engine::CanvasHeight - Engine::SpriteSize);
-
-		// Initialise aliens
-			if(start){
-				for (Alien &unit: aliens){
-					engine.drawSprite(
-						Engine::Sprite::Enemy1, 
-						unit.x,
-						unit.y);
-				}
-			}
+				x, y_player);
 
 		// Move aliens if player is alive
 			if (player.alive)
 			{	
+				// shooting
+				if (keys.fire){
+					rocks.emplace_back(x, y_player); 
+					// equiv to .push_back(Rocket(x, y_player))
+					rocket_count++;
+				}
+				// Rockets movement
+				for (Rocket& r: rocks) // reference to avoid copying
+				{
+					engine.drawSprite(
+						r.sprite, 
+						r.x, r.y);
+					r.move();
+				}
+
+
+				// aliens movement
 				for (Alien &unit: aliens){
+					// Draw aliens
+					engine.drawSprite(
+					Engine::Sprite::Enemy1, 
+					unit.x,
+					unit.y);
+					// Move aliens
 					unit.SideMove();
 				}
-			};
+
+
+			}
 
 		}
 	}
