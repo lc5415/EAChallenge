@@ -4,36 +4,33 @@
 #include <vector>
 #include <algorithm>
 
+Entity::Entity(){}
+Entity::Entity(float& x_in, float& y_in): x(x_in), y(y_in){}
 
-
-Projectile::Projectile(int& x_in, int& y_in): x(x_in), y(y_in){}
+Projectile::Projectile():Entity(){}
+Projectile::Projectile(float& x_in, float& y_in):Entity(x_in,y_in){}
 
 void Projectile::collide()
 {
 
 }
 
-Rocket::Rocket(int x_in, int y_in):Projectile(x_in,y_in){}
-Bomb::Bomb(int x_in, int y_in): Projectile(x_in,y_in){}
+Rocket::Rocket():Projectile(){}
+Rocket::Rocket(float& x_in, float& y_in):Projectile(x_in,y_in){}
+Bomb::Bomb():Projectile(){}
+Bomb::Bomb(float& x_in, float& y_in): Projectile(x_in,y_in){}
 
 void Rocket::move(){y-=step;}
 
 void Bomb::move(){y+=step;}
 
+Ship::Ship():Entity(){}
 
-
-
-// Constructor definition
-Alien::Alien(){
-	count++;
-}
-
-Alien::~Alien(){
-	count--;
-}
-
-
+Ship::Ship(float& x_in, float& y_in):Entity(x_in, y_in){}
 // functions
+
+Alien::Alien():Entity(){}
+Alien::Alien(float& x_in, float& y_in):Entity(x_in, y_in){}
 
 void Alien::SideMove(){
 /*
@@ -42,19 +39,8 @@ when they any alien reaches the right, all aliens go down
 next when any alien touches the edge, all aliens go down
 */
 
-	if (flow_right){
-		x++;
-	} else {
-		x--;
-	}
 
-	// this is somewhat obscure because it's not in main
-	if ((flow_right and x == Engine::CanvasWidth-Engine::SpriteSize) or 
-		(not flow_right and x == 0))
-	{
-		flow_right = not flow_right;
-		Down();
-	}
+
 
 }
 
@@ -63,18 +49,90 @@ void Alien::Shoot(std::vector<Bomb>& bombs){
 	// I only shoot one of every 100 times. Couldd change for 
 	// a time based shooting
 	if (rand()%2 == 1) bombs.emplace_back(x, y);
-
 };
 void Alien::Die(){};
-void Alien::Down(){
-// this is also static as we
-// want it to affect all units
-	y += Engine::SpriteSize;
+
+
+class Fleet {
+public:
+	int width, height, count;
+	std::vector<Alien> aliens;
+	bool flow_right = true;
+
+
+	Fleet(int w_in, int h_in);
+	void Down();
+	void Dynamics(Engine& engine,double& timestamp,
+		double& time_at_lastbomb,double& delay_btwn_bombs, 
+  		std::vector<Bomb>& bombs);
+};
+
+Fleet::Fleet(int w_in, int h_in):width(w_in), height(h_in){
+
+	// allocate memory 
+	count = w_in*h_in;	
+	aliens.resize(count);
+
+	//Give in initial position
+	for (int j = 0; j<h_in; j++)
+	{
+		for (int i = 0; i<w_in;i++)
+		{
+			aliens[i+j*w_in].x = Engine::SpriteSize*i;
+			aliens[i+j*w_in].y = Engine::SpriteSize*j;
+		}
+	}
 }
 
-int Alien::y = 0; // initialise y for all aliens
-bool Alien::flow_right = true;
-int Alien::count = 0;
+void Fleet::Down(){
+	for (Alien& a: aliens)
+		a.y+=Engine::SpriteSize;
+};
+
+void Fleet::Dynamics(Engine& engine,
+	double& timestamp,
+ 	double& time_at_lastbomb,
+  	double& delay_btwn_bombs, 
+ 	std::vector<Bomb>& bombs)
+{
+
+	for (Alien& a: aliens)
+	{	
+		if (flow_right)
+		{
+			a.x++;
+			// Check if unit hit right edge
+			if (a.x == Engine::CanvasWidth-Engine::SpriteSize)
+			{
+				flow_right = not flow_right;
+				Down();
+			}
+		} else {
+			a.x--;
+			// Check if unit hit right edge
+			if (a.x == 0)
+			{
+				flow_right = not flow_right;
+				Down();
+			}
+		}
+
+		// display
+		engine.drawSprite(
+			a.sprite, 
+			a.x, a.y);
+
+		//bombs
+		if (a.alive and
+		 timestamp-time_at_lastbomb>delay_btwn_bombs)
+		{
+		 	a.Shoot(bombs);
+			time_at_lastbomb = timestamp;
+		}
+	}
+
+
+};
 
 /////////MAIN BODY///////////
 void EngineMain()
@@ -98,19 +156,14 @@ void EngineMain()
 	// more aliens that what can be put
 	int max_aliens = Engine::CanvasWidth/Engine::SpriteSize;
 
-	const int n_aliens = 8; //can prompt this later
-	Alien aliens[n_aliens]; //aliens vector
+	const int w_aliens = 8; // Number of rows with aliens
+	const int h_aliens = 4; // Number of columns with aliens
+	Fleet enemies(w_aliens, h_aliens);
 
 	std::vector<Rocket> rocks; //rocket (empty) vector
 	int rocket_count = 0;
 	std::vector<Bomb> bombs; //bomb (empty) vector
 	int bomb_count = 0;
-
-	// initialise aliens
-	for (int i = 0; i<n_aliens; i++){
-		aliens[i].x = Engine::SpriteSize*(i);
-	}
-
 
 	int iter = 0;
 	while (engine.startFrame())
@@ -173,27 +226,11 @@ void EngineMain()
 					r.move();
 				}
 
-
-				// Aliens dynamics
-				for (Alien &unit: aliens)
-				{
-					// Draw aliens
-					engine.drawSprite(
-					unit.sprite, 
-					unit.x,
-					unit.y);
-
-					// Move aliens
-					unit.SideMove();
-
-					//bombs
-					if (unit.alive and
-					 timestamp-time_at_lastbomb>delay_btwn_bombs)
-					{
-					 	unit.Shoot(bombs);
-						time_at_lastbomb = timestamp;
-					}
-				}
+				enemies.Dynamics(engine,
+					timestamp,
+					time_at_lastbomb,
+					delay_btwn_bombs,
+					bombs);
 
 				// bombs display + movement
 				for (Bomb& b: bombs) // reference to avoid copying
