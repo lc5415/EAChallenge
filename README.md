@@ -14,10 +14,10 @@ Rules of the Game
 ### Description 
 DICE Invaders consists of four different objects: 
 
-- [ ] the player ship,
-- [ ] the aliens,
-- [ ] the aliens' bombs and 
-- [ ] the player's rockets.
+- [x] the player ship,
+- [x] the aliens,
+- [x] the aliens' bombs and 
+- [x] the player's rockets.
 
 The goal of the game is to shoot as many aliens as possible without being hit by them or their bombs. 
  
@@ -29,30 +29,30 @@ horizontally. It can fire rockets at the aliens.
  
 ### The rockets 
 
-- [ ] The rockets travel straight up. 
+- [x] The rockets travel straight up. 
 
-- [ ] If they hit an alien, the alien and the rocket are destroyed, and the player's score is increased.
+- [x] If they hit an alien, the alien and the rocket are destroyed, and the player's score is increased.
 
 Rockets cannot destroy bombs. 
 
-- [ ] When the rocket reaches the top of the screen, it disappears. 
+- [x] When the rocket reaches the top of the screen, it disappears. 
 
 ### The aliens 
 
-- [ ] The aliens start out at the top left corner of the screen, organized in rows and
+- [x] The aliens start out at the top left corner of the screen, organized in rows and
 columns.
-- [ ] They move slowly to the right, until the rightmost alien reaches the
+- [x] They move slowly to the right, until the rightmost alien reaches the
 border of the screen. Then, they all take one step down, and start travel to the
 left instead. 
-- [ ] If the alien collides with the player, the alien is destroyed and
+- [x] If the alien collides with the player, the alien is destroyed and
 the player's health is decreased.
 - [ ] The aliens drop bombs randomly. 
  
 ### The bombs 
 
-- [ ] The bombs travel straight down. 
-- [ ] If they hit the player, the player's health is decreased and the bomb is destroyed.
-- [ ] A bomb disappears when it is outside the bottom of the screen. 
+- [x] The bombs travel straight down. 
+- [x] If they hit the player, the player's health is decreased and the bomb is destroyed.
+- [x] A bomb disappears when it is outside the bottom of the screen. 
 
 The bombs don't hurt other aliens. 
  

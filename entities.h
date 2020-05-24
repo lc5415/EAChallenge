@@ -2,9 +2,14 @@
 class Entity {
 public:
 	float x,y;
+	int width, height;
 	Engine::Sprite sprite;
+	bool active = true;
 	Entity();
+	~Entity();
 	Entity(float& x_in, float& y_in);
+
+	friend void checkHit();
 };
 
 
@@ -12,7 +17,6 @@ class Projectile : public Entity{
 public:
 	constexpr static float step = 1.0; //to incorporate speed
 	bool direction_up;
-	void collide();
 	Engine::Sprite sprite;
 	Projectile();
 	Projectile(float& x_in, float& y_in);
@@ -23,7 +27,7 @@ public:
 class Rocket : public Projectile {
 
 public:
-	const bool direction_up = true;
+	bool direction_up = true;
 	const static Engine::Sprite sprite = Engine::Sprite::Rocket;
 	// next line will call Projectile constructor
 	Rocket();
@@ -34,7 +38,7 @@ public:
 
 class Bomb : public Projectile {
 public:
-	const bool direction_up = false;
+	bool direction_up = false;
 	const static Engine::Sprite sprite = Engine::Sprite::Bomb;
 	// next line will call Projectile constructor
 	Bomb();
@@ -46,8 +50,10 @@ class Ship : public Entity {
 
 public:
 	float y = Engine::CanvasHeight - Engine::SpriteSize;
-	bool alive = true;
 	int lives = 3;
+	int score = 0;
+	std::string score_msg = std::to_string(score);
+	std::string lives_msg = std::to_string(lives);
 	void Shoot();
 	void Damage();
 	Ship();
@@ -62,14 +68,10 @@ class Alien : public Entity{
 public:
 	const static Engine::Sprite sprite = Engine::Sprite::Enemy1;
 	// constructor & destructor
-
-	bool alive = true;	
 	Alien();
 	Alien(float& x_in, float& y_in);
 //functions
-	void SideMove();
 	void Shoot(std::vector<Bomb>& bombs);
-	void Die();
 };
 
 
