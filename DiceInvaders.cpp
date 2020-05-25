@@ -28,7 +28,7 @@ void EngineMain()
 		/* INITIAL WINDOW:
 		Wait until user presses space to start the game */ 
 
-		if (not game.start){
+		if (! game.start){
 			
 			game.gameIdle(engine, keys); // display PRESS SPACE TO START until space is pressed
 

@@ -56,9 +56,9 @@ void Game::getTime(Engine& engine){
 void Game::checkHit(Projectile& p, Alien& a)
 {/*This check hits between rockets and aliens and add score*/
 const int size = spriteSize;
-if (p.x + size > a.x and
-	a.x+size > p.x and 
-	a.y+size > p.y and
+if (p.x + size > a.x &&
+	a.x+size > p.x && 
+	a.y+size > p.y &&
 	p.y+size > a.y)
 {
 	p.active = false;
@@ -73,9 +73,9 @@ void Game::checkHit(Projectile& p, Ship& s)
 {/*This check hits between the bombs and the player and updates the player
 life*/
 const int size = Engine::SpriteSize;
-if (p.x + size > s.x and
-	s.x+size > p.x and 
-	s.y+size > p.y and
+if (p.x + size > s.x &&
+	s.x+size > p.x && 
+	s.y+size > p.y &&
 	p.y+size > s.y)
 {
 	s.lives--;
@@ -87,9 +87,9 @@ if (p.x + size > s.x and
 void Game::checkHit(Alien& a, Ship& s)
 {/*This check hits between the bombs and the player and updates the player
 life*/
-if (a.x + spriteSize > s.x and
-	s.x+spriteSize > a.x and 
-	s.y+spriteSize > a.y and
+if (a.x + spriteSize > s.x &&
+	s.x+spriteSize > a.x && 
+	s.y+spriteSize > a.y &&
 	a.y+spriteSize > s.y)
 {
 	s.lives--;
@@ -103,8 +103,8 @@ if (a.x + spriteSize > s.x and
 
 void Game::UpdatePlayer(Engine& engine, Engine::PlayerInput& keys){
 	// ship movement + display
-	if (keys.left and player.x>0)  --player.x;
-	if (keys.right and
+	if (keys.left && player.x>0)  --player.x;
+	if (keys.right &&
 		player.x < engine.CanvasWidth-engine.SpriteSize) ++player.x;
 
 		engine.drawSprite(
@@ -112,7 +112,7 @@ void Game::UpdatePlayer(Engine& engine, Engine::PlayerInput& keys){
 			player.x, player.y);
 
 	// ship shooting
-	if (keys.fire and
+	if (keys.fire &&
 		engine.getStopwatchElapsedSeconds()-time_at_lastshot>delay_btwn_shots)
 	{
 		rockets.emplace_back(player.x, player.y); 
@@ -144,7 +144,7 @@ void Game::UpdateAliens(Engine& engine)
 			// Check if unit hit right edge
 				if (a.x == engine.CanvasWidth-engine.SpriteSize)
 				{
-					aliens.flow_right = not aliens.flow_right;
+					aliens.flow_right = ! aliens.flow_right;
 					aliens.Down();
 				}
 			} else {
@@ -152,7 +152,7 @@ void Game::UpdateAliens(Engine& engine)
 			// Check if unit hit right edge
 				if (a.x == 0)
 				{
-					aliens.flow_right = not aliens.flow_right;
+					aliens.flow_right = ! aliens.flow_right;
 					aliens.Down();
 				}
 			}
@@ -232,7 +232,7 @@ void Game::clearInactive(){
 	rockets.erase(
 		std::remove_if(rockets.begin(), rockets.end(),
 			[](Rocket& r){
-				bool dissapear = !(r.active) or (r.y<0);
+				bool dissapear = !(r.active) || (r.y<0);
 				return dissapear;
 			}), rockets.end());
 	
@@ -274,6 +274,8 @@ void Game::isPlayerAlive(){
 void Game::hasPlayerWon(){
 	if (aliens.count <1){ // if less than one player alive, respawn aliens
 		aliens = Fleet(aliens.width, aliens.height);
+		round++;
+		round_msg = std::to_string(round);
 	}
 }
 

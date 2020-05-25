@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include <vector>
 #include <algorithm>
+#include <string>
 
 
 class Entity {
