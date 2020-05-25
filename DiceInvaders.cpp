@@ -9,7 +9,8 @@ void EngineMain()
 	Engine engine;
 	Engine::PlayerInput keys;
 	Fleet aliens(w_aliens, h_aliens);
-	Game game(aliens);
+	double delay_btwn_steps = 0.015; // time it will take for dynamics to change
+	Game game(aliens, delay_btwn_steps);
 	game.player.x = (engine.CanvasWidth-engine.SpriteSize) / 2;
 
 	game.time_at_lastshot = engine.getStopwatchElapsedSeconds();

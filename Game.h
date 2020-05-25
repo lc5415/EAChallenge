@@ -55,7 +55,7 @@ public:
 
 	// constructors
 	Game();
-	Game(Fleet& f_in);
+	Game(Fleet& f_in, double& delay_btwn_steps);
 	~Game();
 
 	// functions

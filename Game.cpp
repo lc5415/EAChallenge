@@ -30,9 +30,12 @@ void Fleet::Down(){
 
 Game::Game(){}
 
-Game::Game(Fleet& f_in)
-:aliens(f_in)
-{}
+Game::Game(Fleet& f_in, double& delay_btwn_steps)
+:aliens(f_in), delay_btwn_steps(delay_btwn_steps)
+{
+	delay_btwn_shots = 50*delay_btwn_steps;
+	delay_btwn_bombs = 25*delay_btwn_steps;
+}
 
 Game::~Game(){}
 
