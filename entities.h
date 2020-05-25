@@ -20,7 +20,7 @@ public:
 
 class Projectile : public Entity{
 public:
-	constexpr static int step = 1.0; //to incorporate speed
+	constexpr static int step = 1; //to incorporate speed
 	bool direction_up;
 	Engine::Sprite sprite;
 	Projectile();

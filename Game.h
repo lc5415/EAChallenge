@@ -33,7 +33,7 @@ public:
 	double time_at_laststep;
 	double delay_btwn_shots = 0.5; //half a second
 	double delay_btwn_bombs = 0.25; // make aliens shoot fast as twice as ship
-	double delay_btwn_steps = 0.1;
+	double delay_btwn_steps = 0.01;
 
 	// message board
 	std::string l_msg = "LIVES: ";
@@ -68,6 +68,8 @@ public:
 	void checkHit(Projectile& p, Alien& a);
 
 	void checkHit(Projectile& p, Ship& s);
+
+	void Draw(Engine& engine);
 
 	void UpdatePlayer(Engine& engine, Engine::PlayerInput& keys);
 

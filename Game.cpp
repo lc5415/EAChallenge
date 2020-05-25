@@ -107,18 +107,15 @@ void Game::UpdatePlayer(Engine& engine, Engine::PlayerInput& keys){
 	if (keys.right &&
 		player.x < engine.CanvasWidth-engine.SpriteSize) ++player.x;
 
-		engine.drawSprite(
-			player.sprite, 
-			player.x, player.y);
 
 	// ship shooting
-	if (keys.fire &&
-		engine.getStopwatchElapsedSeconds()-time_at_lastshot>delay_btwn_shots)
-	{
-		rockets.emplace_back(player.x, player.y); 
+		if (keys.fire &&
+			engine.getStopwatchElapsedSeconds()-time_at_lastshot>delay_btwn_shots)
+		{
+			rockets.emplace_back(player.x, player.y); 
 		// equiv to .push_back(Rocket(x, y_player))
-		time_at_lastshot = engine.getStopwatchElapsedSeconds();
-	}
+			time_at_lastshot = engine.getStopwatchElapsedSeconds();
+		}
 	// Rockets display+movement
 	for (Rocket& r: rockets) // reference to avoid copying
 	{
@@ -157,11 +154,6 @@ void Game::UpdateAliens(Engine& engine)
 				}
 			}
 
-		// display
-			engine.drawSprite(
-				a.sprite, 
-				a.x, a.y);
-
 		//bombs
 			if (engine.getStopwatchElapsedSeconds()-time_at_lastbomb>delay_btwn_bombs)
 			{	
@@ -190,15 +182,29 @@ void Game::UpdateAliens(Engine& engine)
 	// bombs display + movement
 	for (Bomb& b: bombs) // reference to avoid copying
 	{	
-		engine.drawSprite(
-			b.sprite, 
-			b.x, b.y);
 		b.move();
 
 		//check for collisions with the player
 		checkHit(b, player);
 	}
 };
+
+void Game::Draw(Engine& engine){
+	
+
+	for (Alien& a: aliens.units){
+		engine.drawSprite(
+			a.sprite,a.x, a.y);
+	}
+	for (Bomb& b: bombs){
+		engine.drawSprite(
+			b.sprite, 
+			b.x, b.y);
+	}
+
+	engine.drawSprite(player.sprite, player.x, player.y);
+
+}
 
 
 void Game::Dashboard(Engine& engine){
@@ -244,7 +250,7 @@ void Game::clearInactive(){
 			aliens.units.end(),
 			[](Alien& a){
 
-				bool dissapear = !(a.active) or
+				bool dissapear = !(a.active) ||
 				(a.y>Engine::CanvasHeight);
 				return dissapear;
 
@@ -258,7 +264,7 @@ void Game::clearInactive(){
 			bombs.end(),
 			[](Bomb& b){
 
-				bool dissapear = !(b.active) or
+				bool dissapear = !(b.active) ||
 				(b.y > Engine::CanvasHeight-Engine::SpriteSize);
 				return dissapear;
 
@@ -284,20 +290,7 @@ void Game::GameOverMsg(Engine& engine){
 
 	// FREEZE SPRITE AT DEFEAT
 
-	for (Alien& a: aliens.units){
-	engine.drawSprite(
-		a.sprite,a.x, a.y);
-	}
-
-	for (Bomb&b: bombs){
-			engine.drawSprite(
-			b.sprite, 
-			b.x, b.y);
-	}
-
-
-	engine.drawSprite(player.sprite, player.x, player.y);
-
+	Draw(engine);
 
 	// GAME OVER MESSAGE
 	std::string final_msg = "FINAL SCORE: " + score_msg;
