@@ -25,12 +25,15 @@ public:
 	int score = 0; 
 	bool start = false;
 
+
 	// time management metrics
 	double timestamp;
 	double time_at_lastshot;
 	double time_at_lastbomb;
+	double time_at_laststep;
 	double delay_btwn_shots = 0.5; //half a second
 	double delay_btwn_bombs = 0.25; // make aliens shoot fast as twice as ship
+	double delay_btwn_steps = 0.1;
 
 	// message board
 	std::string l_msg = "LIVES: ";

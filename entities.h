@@ -7,25 +7,24 @@
 
 class Entity {
 public:
-	float x,y;
+	int x,y;
 	int width, height;
 	Engine::Sprite sprite;
 	bool active = true;
 	Entity();
 	~Entity();
-	Entity(float& x_in, float& y_in);
+	Entity(int& x_in, int& y_in);
 
-	friend void checkHit();
 };
 
 
 class Projectile : public Entity{
 public:
-	constexpr static float step = 1.0; //to incorporate speed
+	constexpr static int step = 1.0; //to incorporate speed
 	bool direction_up;
 	Engine::Sprite sprite;
 	Projectile();
-	Projectile(float& x_in, float& y_in);
+	Projectile(int& x_in, int& y_in);
 	~Projectile();
 };
 
@@ -38,7 +37,7 @@ public:
 	const static Engine::Sprite sprite = Engine::Sprite::Rocket;
 	// next line will call Projectile constructor
 	Rocket();
-	Rocket(float& x_in, float& y_in);
+	Rocket(int& x_in, int& y_in);
 	~Rocket();
 	void move();
 	
@@ -50,7 +49,7 @@ public:
 	const static Engine::Sprite sprite = Engine::Sprite::Bomb;
 	// next line will call Projectile constructor
 	Bomb();
-	Bomb(float& x_in, float& y_in);
+	Bomb(int& x_in, int& y_in);
 	~Bomb();
 	void move();
 };
@@ -58,13 +57,13 @@ public:
 class Ship : public Entity {
 
 public:
-	float y = Engine::CanvasHeight - Engine::SpriteSize;
+	int y = Engine::CanvasHeight - Engine::SpriteSize;
 	int lives = 3;
 	std::string lives_msg = std::to_string(lives);
 	void Shoot();
 	void Damage();
 	Ship();
-	Ship(float& x_in, float& y_in);
+	Ship(int& x_in, int& y_in);
 	~Ship();
 	const static Engine::Sprite sprite = Engine::Sprite::Player;
 
@@ -77,7 +76,7 @@ public:
 	const static Engine::Sprite sprite = Engine::Sprite::Enemy1;
 	// constructor & destructor
 	Alien();
-	Alien(float& x_in, float& y_in);
+	Alien(int& x_in, int& y_in);
 	~Alien();
 //functions
 	bool Shoot(std::vector<Bomb>& bombs);

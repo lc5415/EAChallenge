@@ -14,6 +14,7 @@ void EngineMain()
 
 	game.time_at_lastshot = engine.getStopwatchElapsedSeconds();
 	game.time_at_lastbomb = engine.getStopwatchElapsedSeconds();
+	game.time_at_laststep = engine.getStopwatchElapsedSeconds();
 
 	while (engine.startFrame())
 	{	
@@ -27,7 +28,6 @@ void EngineMain()
 
 		/* INITIAL WINDOW:
 		Wait until user presses space to start the game */ 
-
 		if (! game.start){
 			
 			game.gameIdle(engine, keys); // display PRESS SPACE TO START until space is pressed
@@ -35,28 +35,31 @@ void EngineMain()
 		} else { // start game
 
 			game.getTime(engine); // get the current time (game time)
-			
-		// Move aliens if player is active
-			if (game.player.active) // if the player is still alive
-			{	
+			if (game.timestamp-game.time_at_laststep>game.delay_btwn_steps) // "masterclock"
+			{
+					// Move aliens if player is active
+				if (game.player.active) // if the player is still alive
+				{	
 
-				game.UpdatePlayer(engine, keys); // update position and shoot
+					game.UpdatePlayer(engine, keys); // update position and shoot
 
-				game.UpdateAliens(engine); // update position and bomb
-				
-				game.Dashboard(engine); // Score and lives display
-				
-				game.clearInactive(); // clear out memory of no longer active entities
+					game.UpdateAliens(engine); // update position and bomb
+					
+					game.Dashboard(engine); // Score and lives display
+					
+					game.clearInactive(); // clear out memory of no longer active entities
 
-				game.isPlayerAlive(); // check whether player is still alive
+					game.isPlayerAlive(); // check whether player is still alive
 
-				game.hasPlayerWon(); // check whether player has won (no more aliens) and
-				// if so respawn a new fleet of aliens
+					game.hasPlayerWon(); // check whether player has won (no more aliens) and
+					// if so respawn a new fleet of aliens
 
 
-			} else { //if player not active
-				game.GameOverMsg(engine); // display game over message with final score
+				} else { //if player not active
+					game.GameOverMsg(engine); // display game over message with final score
+				}
 			}
+		
 
 		}
 	}

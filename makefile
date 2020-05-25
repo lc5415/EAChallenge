@@ -1,6 +1,6 @@
 FILES          = DiceInvaders.cpp Engine.cpp entities.cpp Game.cpp
 EXECUTABLE     = DiceInvaders.exe
-CFLAGS         = /nologo /Z7 /W4 /WX /Fe$(EXECUTABLE)
+CFLAGS         = /nologo /Z7 /W4 /WX /Fe$(EXECUTABLE) /EHsc
 CFLAGS_RELEASE = $(CFLAGS) /Ox /MT /DNDEBUG
 CFLAGS_DEBUG   = $(CFLAGS) /Od /MTd /D_DEBUG
 CC             = cl.exe
