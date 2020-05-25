@@ -27,13 +27,12 @@ public:
 
 
 	// time management metrics
-	double timestamp;
 	double time_at_lastshot;
 	double time_at_lastbomb;
-	double time_at_laststep;
+	double time_at_lastupdate;
 	double delay_btwn_shots = 0.5; //half a second
 	double delay_btwn_bombs = 0.25; // make aliens shoot fast as twice as ship
-	double delay_btwn_steps = 0.01;
+	double delay_btwn_updates = 0.01;
 
 	// message board
 	std::string l_msg = "LIVES: ";
@@ -55,7 +54,7 @@ public:
 
 	// constructors
 	Game();
-	Game(Fleet& f_in, double& delay_btwn_steps);
+	Game(Fleet& f_in, double& masterDelay);
 	~Game();
 
 	// functions

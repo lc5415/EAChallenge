@@ -9,13 +9,13 @@ void EngineMain()
 	Engine engine;
 	Engine::PlayerInput keys;
 	Fleet aliens(w_aliens, h_aliens);
-	double delay_btwn_steps = 0.015; // time it will take for dynamics to change
-	Game game(aliens, delay_btwn_steps);
+	double delay_btwn_updates = 0.015; // time it will take for dynamics to change
+	Game game(aliens, delay_btwn_updates);
 	game.player.x = (engine.CanvasWidth-engine.SpriteSize) / 2;
 
 	game.time_at_lastshot = engine.getStopwatchElapsedSeconds();
 	game.time_at_lastbomb = engine.getStopwatchElapsedSeconds();
-	game.time_at_laststep = engine.getStopwatchElapsedSeconds();
+	game.time_at_lastupdate= engine.getStopwatchElapsedSeconds();
 
 	while (engine.startFrame())
 	{	
@@ -35,14 +35,13 @@ void EngineMain()
 
 		} else { // start game
 
-			game.getTime(engine); // get the current time (game time)
 			game.Draw(engine); // draw at every timestep
 					// Move aliens if player is active
 				if (game.player.active) // if the player is still alive
 				{	
-					if (game.timestamp-game.time_at_laststep>game.delay_btwn_steps) // update "masterclock")
+					if (engine.getStopwatchElapsedSeconds()-game.time_at_lastupdate>game.delay_btwn_updates) // update "masterclock")
 					{	
-						game.time_at_laststep = game.timestamp;
+						game.time_at_lastupdate = engine.getStopwatchElapsedSeconds();
 						game.UpdatePlayer(engine, keys); // update position and shoot
 
 						game.UpdateAliens(engine); // update position and bomb

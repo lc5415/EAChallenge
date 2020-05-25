@@ -30,11 +30,11 @@ void Fleet::Down(){
 
 Game::Game(){}
 
-Game::Game(Fleet& f_in, double& delay_btwn_steps)
-:aliens(f_in), delay_btwn_steps(delay_btwn_steps)
+Game::Game(Fleet& f_in, double& masterDelay)
+:aliens(f_in), delay_btwn_updates(masterDelay)
 {
-	delay_btwn_shots = 50*delay_btwn_steps;
-	delay_btwn_bombs = 25*delay_btwn_steps;
+	delay_btwn_shots = 50*delay_btwn_updates;
+	delay_btwn_bombs = 25*delay_btwn_updates;
 }
 
 Game::~Game(){}
@@ -47,12 +47,6 @@ void Game::gameIdle(Engine& engine, Engine::PlayerInput& keys){
 		(engine.CanvasHeight - engine.FontRowHeight) / 2); 
 
 	if (keys.fire) start = true; // if hit space start game
-};
-
-void Game::getTime(Engine& engine){
-	timestamp = engine.getStopwatchElapsedSeconds();
-	// (void)timestamp;
-	iter++;
 };
 
 
