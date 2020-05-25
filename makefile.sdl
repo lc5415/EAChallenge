@@ -6,7 +6,7 @@ else
 endif
 
 all:
-	cc -std=c++11 DiceInvaders.cpp Engine.cpp $(LibSDL) -fno-exceptions -o DiceInvaders
+	cc -std=c++11 DiceInvaders.cpp Engine.cpp entities.cpp Game.cpp $(LibSDL) -fno-exceptions -o DiceInvaders
 
 clean:
 	-rm DiceInvaders

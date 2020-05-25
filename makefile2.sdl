@@ -6,7 +6,7 @@ else
 endif
 
 all:
-	g++ -g -std=c++11  DiceInvaders.cpp Engine.cpp $(LibSDL) -I/Library/Frameworks/SDL2.framework/Headers -F/Library/Frameworks -fno-exceptions -o DiceInvaders
+	cc -lstdc++ -std=c++11  DiceInvaders.cpp Engine.cpp entities.cpp Game.cpp $(LibSDL) -I/Library/Frameworks/SDL2.framework/Headers -F/Library/Frameworks -fno-exceptions -o DiceInvaders
 
 clean:
 	-rm DiceInvaders

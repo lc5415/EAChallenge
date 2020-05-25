@@ -25,7 +25,7 @@ The goal of the game is to shoot as many aliens as possible without being hit by
 The player ship is positioned at the bottom of the screen. It can only move
 horizontally. It can fire rockets at the aliens.
 
-- [ ] The ship can take three hits from aliens or their bombs before it is destroyed and the game is over. 
+- [x] The ship can take three hits from aliens or their bombs before it is destroyed and the game is over. 
  
 ### The rockets 
 
@@ -46,7 +46,7 @@ border of the screen. Then, they all take one step down, and start travel to the
 left instead. 
 - [x] If the alien collides with the player, the alien is destroyed and
 the player's health is decreased.
-- [ ] The aliens drop bombs randomly. 
+- [x] The aliens drop bombs randomly. 
  
 ### The bombs 
 
@@ -58,11 +58,11 @@ The bombs don't hurt other aliens.
  
 ### The end of the game 
 
-- [ ] If the player is hit three times by aliens or their bombs,
-- [ ] or an alien reaches the bottom of the screen,
+- [x] If the player is hit three times by aliens or their bombs,
+- [x] or an alien reaches the bottom of the screen,
 the player loses and the game is over. 
 
-- [ ] If the player kills all aliens, a new alien army should be created at the top of the screen. 
+- [x] If the player kills all aliens, a new alien army should be created at the top of the screen. 
  
 
 Compiling the Game (Windows)

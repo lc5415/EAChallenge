@@ -1,3 +1,8 @@
+#include "iostream"
+#include "Engine.h"
+#include <vector>
+#include <algorithm>
+
 
 class Entity {
 public:
@@ -20,6 +25,7 @@ public:
 	Engine::Sprite sprite;
 	Projectile();
 	Projectile(float& x_in, float& y_in);
+	~Projectile();
 };
 
 /// Inherited classs rocket
@@ -32,6 +38,7 @@ public:
 	// next line will call Projectile constructor
 	Rocket();
 	Rocket(float& x_in, float& y_in);
+	~Rocket();
 	void move();
 	
 };
@@ -43,6 +50,7 @@ public:
 	// next line will call Projectile constructor
 	Bomb();
 	Bomb(float& x_in, float& y_in);
+	~Bomb();
 	void move();
 };
 
@@ -51,13 +59,12 @@ class Ship : public Entity {
 public:
 	float y = Engine::CanvasHeight - Engine::SpriteSize;
 	int lives = 3;
-	int score = 0;
-	std::string score_msg = std::to_string(score);
 	std::string lives_msg = std::to_string(lives);
 	void Shoot();
 	void Damage();
 	Ship();
 	Ship(float& x_in, float& y_in);
+	~Ship();
 	const static Engine::Sprite sprite = Engine::Sprite::Player;
 
 };
@@ -70,8 +77,9 @@ public:
 	// constructor & destructor
 	Alien();
 	Alien(float& x_in, float& y_in);
+	~Alien();
 //functions
-	void Shoot(std::vector<Bomb>& bombs);
+	bool Shoot(std::vector<Bomb>& bombs);
 };
 
 

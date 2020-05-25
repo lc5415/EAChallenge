@@ -1,4 +1,4 @@
-FILES          = DiceInvaders.cpp Engine.cpp
+FILES          = DiceInvaders.cpp Engine.cpp entities.cpp Game.cpp
 EXECUTABLE     = DiceInvaders.exe
 CFLAGS         = /nologo /Z7 /W4 /WX /Fe$(EXECUTABLE)
 CFLAGS_RELEASE = $(CFLAGS) /Ox /MT /DNDEBUG
