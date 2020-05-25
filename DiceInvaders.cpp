@@ -35,7 +35,7 @@ void EngineMain()
 		} else { // start game
 
 			game.getTime(engine); // get the current time (game time)
-			game.Draw(engine);
+			game.Draw(engine); // draw at every timestep
 					// Move aliens if player is active
 				if (game.player.active) // if the player is still alive
 				{	
@@ -45,8 +45,6 @@ void EngineMain()
 						game.UpdatePlayer(engine, keys); // update position and shoot
 
 						game.UpdateAliens(engine); // update position and bomb
-						
-						game.Dashboard(engine); // Score and lives display
 						
 						game.clearInactive(); // clear out memory of no longer active entities
 

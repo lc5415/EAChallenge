@@ -119,12 +119,7 @@ void Game::UpdatePlayer(Engine& engine, Engine::PlayerInput& keys){
 	// Rockets display+movement
 	for (Rocket& r: rockets) // reference to avoid copying
 	{
-		if (r.active){
-			engine.drawSprite(
-				r.sprite, 
-				r.x, r.y);
 			r.move();
-		}
 	}
 
 };
@@ -202,7 +197,19 @@ void Game::Draw(Engine& engine){
 			b.x, b.y);
 	}
 
+		// Rockets display+movement
+	for (Rocket& r: rockets) // reference to avoid copying
+	{
+			engine.drawSprite(
+				r.sprite, 
+				r.x, r.y);
+
+	}
+
 	engine.drawSprite(player.sprite, player.x, player.y);
+
+	//dashboard
+	Dashboard(engine);
 
 }
 
