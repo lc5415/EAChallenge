@@ -48,7 +48,7 @@ Ship::~Ship(){}
 
 Ship::Ship(int& x_in, int& y_in):Entity(x_in, y_in){}
 
-void Ship::Shoot(std::vector<Rocket>& rocket){
+void Ship::Shoot(std::vector<Rocket>& rockets){
 	rockets.emplace_back(x, y);
 };
 
