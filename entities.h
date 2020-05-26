@@ -6,11 +6,21 @@
 
 
 class Entity {
+	/*
+	All objects in the game (ship, aliens, rocket and bombs)
+	will be children of the Entity class
+	*/
+
 public:
-	int x,y;
-	int width, height;
-	Engine::Sprite sprite;
-	bool active = true;
+
+	//variables
+	int x,y; // position
+	int width = Engine::SpriteSize; 
+	int height = Engine::SpriteSize;
+	Engine::Sprite sprite; // sprite
+	bool active = true; // aka alive
+	
+	// Constructors & Destructor
 	Entity();
 	~Entity();
 	Entity(int& x_in, int& y_in);
@@ -19,53 +29,73 @@ public:
 
 
 class Projectile : public Entity{
+	/*
+	Bombs and rockets will inherit from the Projectile class
+	*/
 public:
-	constexpr static int step = 1; //to incorporate speed
-	bool direction_up;
-	Engine::Sprite sprite;
+
+	int step = 1; // step size at each update
+
+	// constructors
 	Projectile();
 	Projectile(int& x_in, int& y_in);
 	~Projectile();
 };
 
-/// Inherited classs rocket
-
 class Rocket : public Projectile {
 
 public:
-	bool direction_up = true;
-	const static Engine::Sprite sprite = Engine::Sprite::Rocket;
-	// next line will call Projectile constructor
+	// set sprite to Rocket sprite
+	Engine::Sprite sprite = Engine::Sprite::Rocket;
+
+	// {Con/Des}tructors
 	Rocket();
 	Rocket(int& x_in, int& y_in);
 	~Rocket();
+
+	// move function (step up (y--;))
 	void move();
 	
 };
 
 class Bomb : public Projectile {
 public:
-	bool direction_up = false;
-	const static Engine::Sprite sprite = Engine::Sprite::Bomb;
-	// next line will call Projectile constructor
+	// set sprite to Rocket sprite
+	Engine::Sprite sprite = Engine::Sprite::Bomb;
+
+	// {Con/De}structors
 	Bomb();
 	Bomb(int& x_in, int& y_in);
 	~Bomb();
+
+	// move function (step down (y++;))
 	void move();
 };
 
 class Ship : public Entity {
 
 public:
+	// attributes
+
+	// y will always be the same for the ship so set it here
 	int y = Engine::CanvasHeight - Engine::SpriteSize;
-	int lives = 3;
-	std::string lives_msg = std::to_string(lives);
-	void Shoot();
-	void Damage();
+
+	// sprite
+	const static Engine::Sprite sprite = Engine::Sprite::Player;
+
+	// number of lives
+	int lives = 3; 
+
+	// lives msg for dashboard
+	std::string lives_msg = std::to_string(lives); 
+
+	// functions
+	void Shoot(std::vector<Rocket>& r);
+
+	// {Con/De}structors
 	Ship();
 	Ship(int& x_in, int& y_in);
 	~Ship();
-	const static Engine::Sprite sprite = Engine::Sprite::Player;
 
 };
 
@@ -73,13 +103,20 @@ public:
 ///////////ALIEN CLASS /////////////////////
 class Alien : public Entity{
 public:
+	// attributes
+	
+	// sprite
 	const static Engine::Sprite sprite = Engine::Sprite::Enemy1;
-	// constructor & destructor
+	
+	//functions
+	bool Shoot(std::vector<Bomb>& bombs);
+
+	// {Con/De}structors
 	Alien();
 	Alien(int& x_in, int& y_in);
 	~Alien();
-//functions
-	bool Shoot(std::vector<Bomb>& bombs);
+	
+
 };
 
 

@@ -1,3 +1,25 @@
+
+# CODE OVERVIEW
+
+The code has several main components with corresponding scripts. From lower to higher level:
+
+* The game consists of four different objects which are all created in entities.h and entities.cpp files. There is parent class called Entity with basic attributes such as position, size and sprite. All objects(ship, aliens, rockets and bomb) are children of this class. 
+
+* Next level is the Game class which contains the game entities and runs the game logic.
+
+* Next is the EngineMain() functions which instantiates the game class and runs the game at the highest level.
+
+__Variables one may want to tweak__: 
+
+* __To change game difficulty__: 
+	
+	* change width/height of alien fleet in 'DiceInvaders.cpp', 'EngineMain()',
+	* change chance of bombing from aliens in 'entities.cpp', 'Alien::Shoot'.
+	* change 'delay_btwn_shots' or 'delay_btwn_bombs' in 'Game.cpp', 'Game::Game'.
+* __To change game speed__:
+	
+	* change 'delay_btwn_updates' in 'DiceInvaders.cpp' , 'EngineMain()'.
+
 DICE Invaders Assignment
 ========================
 
