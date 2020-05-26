@@ -14,7 +14,7 @@ __Variables one may want to tweak__:
 * __To change game difficulty__: 
 	
 	* change width/height of alien fleet in `DiceInvaders.cpp`, `EngineMain()`,
-	* change chance of bombing from aliens in `entities.cpp`, `Alien::Shoot'.
+	* change chance of bombing from aliens in `entities.cpp`, `Alien::Shoot`.
 	* change `delay_btwn_shots` or `delay_btwn_bombs` in `Game.cpp`, `Game::Game`.
 * __To change game speed__:
 	
@@ -26,7 +26,7 @@ __Variables one may want to tweak__:
 Game compiles in Mac OSX Catalina 10.15 with Apple clang version 11.0.0 (clang-1100.0.33.17). Check your version with (`cc -v`). To compile in your local machine (Mac OSX) run `make -f makefile2.sdl` as `makefile.sdl` will probably not work. Requires SDL2 installed too
 
 ### Windows (Visual studio)
-Code also compiles in Visual Studio. Follow instructions below to run with `nmake`.
+Code also compiles in Visual Studio 2019 following the instructions below (to run with `nmake`).
 
 DICE Invaders Assignment
 ========================
